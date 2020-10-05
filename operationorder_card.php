@@ -44,6 +44,8 @@ $time_plannedmin 	= intval(GETPOST('time_plannedmin', 'int'));
 $time_spenthour 	= intval(GETPOST('time_spenthour', 'int'));
 $time_spentmin 		= intval(GETPOST('time_spentmin', 'int'));
 
+$fk_vehicule 		= GETPOST('select_fk_vehicule');
+
 $predef = '';
 
 $contextpage = GETPOST('contextpage', 'aZ') ? GETPOST('contextpage', 'aZ') : 'operationordercard';   // To manage different context of search
@@ -215,6 +217,10 @@ if (empty($reshook))
             if (!empty($user->rights->operationorder->write))
             {
                 $newid = $object->cloneObject($user);
+                if ($object->array_options['options_fk_dolifleet_vehicule'] != $fk_vehicule){
+					$object->array_options['options_fk_dolifleet_vehicule'] = $fk_vehicule;
+					$object->update($user);
+				}
                 if($newid>0){
 					setEventMessage('OperationOrderCloned');
 					header('Location: '.dol_buildpath('/operationorder/operationorder_card.php', 1).'?id='.$object->id);

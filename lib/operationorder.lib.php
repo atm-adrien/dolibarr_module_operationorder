@@ -250,8 +250,11 @@ function getFormConfirmOperationOrder($form, $object, $action)
     }
     elseif ($action === 'clone' && !empty($user->rights->operationorder->write))
     {
+		$formquestion = array ( 'text' => $langs->trans("ConfirmClone"),
+			array('type' => 'other', 'name' => 'select_fk_vehicule', 'label' => $langs->trans("SelectVehicule"), 'value' => $form->selectForForms('doliFleetVehicule:dolifleet/class/vehicule.class.php', "select_fk_vehicule", $object->array_options['options_fk_dolifleet_vehicule'])));
+
         $body = $langs->trans('ConfirmCloneOperationOrderBody', $object->ref);
-        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ConfirmCloneOperationOrderTitle'), $body, 'confirm_clone', '', 0, 1);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ConfirmCloneOperationOrderTitle'), $body, 'confirm_clone', $formquestion, 0, 1);
     }
     elseif ($action == 'ask_deleteline')
     {
